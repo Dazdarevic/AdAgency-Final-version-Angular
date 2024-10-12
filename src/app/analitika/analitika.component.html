@@ -1,0 +1,20 @@
+<div class="container" style="margin-top: 100px;">
+  <div class="select-wrapper">
+    <label for="godinaSelect">Odaberite godinu: </label>
+    <select id="godinaSelect" style="width: 200px;" (change)="onYearChange($event)">
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+    </select>
+  </div>
+  <div class="charts-container">
+    <div class="chart-wrapper styled-chart">
+      <h2>Procentualna zauzetost po ceni i mesecima</h2>
+      <div echarts [options]="chartOption" class="chart"></div>
+    </div>
+    <div class="chart-wrapper styled-chart">
+      <h2>Ukupna zauzetost po gradovima</h2>
+      <div echarts [options]="cityOccupancyChartOption" class="chart"></div>
+    </div>
+  </div>
+  <button (click)="ucitajPodatke()">Osvježi podatke</button>
+</div>
