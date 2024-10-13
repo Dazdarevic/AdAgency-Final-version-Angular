@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -85,6 +85,19 @@ export class KlijentService {
     const url = `${this.baseUrl}/Klijent/neodobrene-reklame`;
     return this.http.get<any[]>(url, httpOptions);
   }
+
+  getSlobodniPanoi(zadatiDatum: any, grad: any): Observable<any> {
+    const params = new HttpParams()
+      .set('zadatiDatum', zadatiDatum)
+      .set('grad', grad);
+
+    return this.http.get<any>(`${this.baseUrl}/Klijent/slobodnipanoi`, { params });
+  }
+
+  deleteIstekleReklame(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/Klijent/obrisi-istekle-reklame`);
+  }
+
   getOdobreneReklame(): Observable<any[]> {
     const httpOptions = {
       headers: new HttpHeaders({
