@@ -18,6 +18,7 @@ import { MapComponent } from './components/map/map.component';
 import { MojeReklameComponent } from './components/klijent/moje-reklame/moje-reklame.component';
 import { ReklamnipanoComponent } from './components/klijent/reklamnipano/reklamnipano.component';
 import { PanoiComponent } from './components/admin/panoi/panoi.component';
+import { ListapanoaComponent } from './components/admin/listapanoa/listapanoa.component';
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
@@ -28,7 +29,7 @@ export const routes: Routes = [
   { path: 'analitika', component: AnalitikaComponent },
   { path: 'request-for-reg', component: RequestForRegComponent },
   { path: 'panoi', component: PanoiComponent },
-  { path: 'listapanoa', component: SignupComponent },
+  { path: 'listapanoa', component: ListapanoaComponent },
   { path: 'reklamnipano', component: ReklamnipanoComponent }, //
   { path: 'moje-reklame', component: MojeReklameComponent }, //
   { path: 'request-for-ads', component: RequestForAdsComponent }, //
