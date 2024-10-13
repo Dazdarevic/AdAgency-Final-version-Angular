@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="info">
+    <div class="select-wrapper">
+      <label for="gradSelect">Odaberite grad: </label>
+      <select id="gradSelect" [(ngModel)]="selectedGrad" (change)="onGradChange()">
+        <option value="Novi Pazar">Novi Pazar</option>
+        <option value="Tutin">Tutin</option>
+      </select>
+    </div>
+    <img [src]="selectedImg" alt="" class="card-img-top" style="height: 150px;">
+    <h2>{{ selectedPanoZone }}</h2>
+    <p>{{ selectedPanoInfo }}</p>
+  </div>
+  <div id="map"></div> <!-- Ovaj div treba da bude na mestu gde želite da se prikaže mapa -->
+</div>
+<footer>
+  <p>&copy; 2024 Reklamna Agencija. Sva prava zadržana.</p>
+</footer>

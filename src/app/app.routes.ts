@@ -14,19 +14,23 @@ import { AdminFaktureComponent } from './components/admin/admin-fakture/admin-fa
 import { KlijentFaktureComponent } from './components/klijent/klijent-fakture/klijent-fakture.component';
 // import { MapComponent } from './components/map/map.component';
 import { AnalitikaComponent } from './analitika/analitika.component';
+import { MapComponent } from './components/map/map.component';
+import { MojeReklameComponent } from './components/klijent/moje-reklame/moje-reklame.component';
+import { ReklamnipanoComponent } from './components/klijent/reklamnipano/reklamnipano.component';
+import { PanoiComponent } from './components/admin/panoi/panoi.component';
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'map', component: SignupComponent },
+  { path: 'map', component: MapComponent },
   { path: 'myprofile', component: MyProfileComponent },
   { path: 'analitika', component: AnalitikaComponent },
   { path: 'request-for-reg', component: RequestForRegComponent },
-  { path: 'panoi', component: SignupComponent },
+  { path: 'panoi', component: PanoiComponent },
   { path: 'listapanoa', component: SignupComponent },
-  { path: 'reklamnipano', component: SignupComponent }, //
-  { path: 'moje-reklame', component: SignupComponent }, //
+  { path: 'reklamnipano', component: ReklamnipanoComponent }, //
+  { path: 'moje-reklame', component: MojeReklameComponent }, //
   { path: 'request-for-ads', component: RequestForAdsComponent }, //
   { path: 'svereklame', component: SvereklameComponent },//
   { path: 'admin-fakture', component: AdminFaktureComponent }, //
