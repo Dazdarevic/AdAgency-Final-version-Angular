@@ -97,6 +97,7 @@ export class MapComponent implements AfterViewInit {
   private addMarkers(data: any[]): void {
     if (!this.L || !this.map) return;
 
+    // Uklanjamo postojeće markere
     this.map.eachLayer((layer: any) => {
       if (layer instanceof this.L.Marker) {
         this.map.removeLayer(layer);
@@ -104,36 +105,62 @@ export class MapComponent implements AfterViewInit {
     });
 
     data.forEach(pano => {
-      const latitude = parseFloat(pano.latitude);
-      const longitude = parseFloat(pano.longitude);
+      const latitude = parseFloat(pano.pano.latitude);
+      const longitude = parseFloat(pano.pano.longitude);
 
       if (isNaN(latitude) || isNaN(longitude)) {
         console.error('Nevalidne koordinate za pano:', pano);
         return;
       }
 
-      const title = `${pano.adresa}, Osvetljenost: ${pano.osvetljenost}, Cena: ${pano.cijena} RSD`;
-      const zona = `${pano.grad} - ${pano.zona}`;
-      const slika = `${pano.urlSlike}`;
+      // Logika za određivanje boje markera na osnovu procenatZauzetosti
+      let iconColor = 'green'; // Podrazumevano zelena boja
+      const zauzetost = pano.procenatZauzetosti;
 
-      const cijena = parseFloat(pano.cijena);
-      let iconColor = cijena > 2000 ? 'red' : cijena > 1000 ? 'orange' : 'green';
+      if (zauzetost === 0) {
+        iconColor = 'red'; // Crvena ako je zauzetost 0%
+      } else if (zauzetost > 0 && zauzetost <= 5) {
+        iconColor = 'orange'; // Narandžasta ako je zauzetost između 0% i 5%
+      } else if (zauzetost > 5) {
+        iconColor = 'green'; // Zelena ako je zauzetost iznad 5%
+      }
+
+      // Prikazujemo sve relevantne informacije o panu
+      const title = `
+        <strong>Adresa:</strong> ${pano.pano.adresa}<br>
+        <strong>Osvetljenost:</strong> ${pano.pano.osvetljenost}<br>
+        <strong>Cena:</strong> ${pano.pano.cijena} RSD<br>
+        <strong>Procenat zauzetosti:</strong> ${pano.procenatZauzetosti}%<br>
+        <strong>Broj dana zauzetosti:</strong> ${pano.brojDanaZauzetosti} dana
+      `;
+      const zona = `${pano.pano.grad} - ${pano.pano.zona}`;
+      const slika = `${pano.pano.urlSlike}`;
 
       const icon = this.L.icon({
         iconUrl: `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${iconColor}" viewBox="0 0 20 20"><path d="M10 0C7.79 0 6 1.79 6 4c0 3.33 4 7 4 7s4-3.67 4-7c0-2.21-1.79-4-4-4zm0 15c-3.33 0-6 2.67-6 6 0 1.35 1.07 2.4 2.4 2.4h7.2C16.93 23 18 21.95 18 20.6c0-3.33-2.67-6-6-6z"/></svg>`,
         iconSize: [20, 20]
       });
-
+      const title2 = `
+      Adresa: ${pano.pano.adresa}
+      Osvetljenost: ${pano.pano.osvetljenost}
+      Cena: ${pano.pano.cijena} RSD
+      Procenat zauzetosti:${pano.procenatZauzetosti}%
+      Broj dana zauzetosti: ${pano.brojDanaZauzetosti} dana
+    `;
+      // Dodajemo marker na mapu i povezujemo ga sa pop-up-om
       this.L.marker([latitude, longitude], { icon })
         .addTo(this.map)
-        .bindPopup(title)
+        .bindPopup(title) // Pop-up koji prikazuje detalje panoa
         .on('click', () => {
-          this.selectedPanoInfo = title;
+          // Ažuriramo informacije u komponenti nakon što kliknemo na marker
+          // this.selectedPanoInfo = title2;
           this.selectedPanoZone = zona;
           this.selectedImg = slika;
         });
     });
-  }
+}
+
+
 
   private addLegend(): void {
     if (!this.L || !this.map) return;
@@ -144,9 +171,9 @@ export class MapComponent implements AfterViewInit {
       const div = this.L.DomUtil.create('div', 'info legend');
       const colors = ['red', 'orange', 'green'];
       const labels = [
-        '<span style="color:red;">Najskuplje lokacije</span>',
-        '<span style="color:orange;">Srednje skupe lokacije</span>',
-        '<span style="color:green;">Jeftine lokacije</span>'
+        '<span style="color:red;">Najmanje zauzete lokacije</span>',
+        '<span style="color:orange;">Srednje zauzete lokacije</span>',
+        '<span style="color:green;">Najzauzetije lokacije</span>'
       ];
 
       div.innerHTML = '<h4 style="margin: 0;">Legenda</h4>';
